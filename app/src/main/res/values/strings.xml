@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">programmersflo</string>
+    <string name="songFile">song.json</string>
+</resources>
