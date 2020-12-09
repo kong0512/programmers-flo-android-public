@@ -1,17 +1,15 @@
 package com.taeho.programmersflo.activity
 
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.offline.DownloadHelper.createMediaSource
-import com.google.android.exoplayer2.source.MediaSource
 import com.taeho.programmersflo.R
+import com.taeho.programmersflo.util.LyricsUtil
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,9 +26,7 @@ class MainActivity : AppCompatActivity() {
         songView_player.showTimeoutMs = 0
 
         songView_player.setProgressUpdateListener { position, bufferedPosition ->
-            Log.d("test", position.toString())
-
-
+            playViewModel.setStatusForLyrics(position)
         }
 
         playViewModel.songLiveData.observe(this@MainActivity, Observer { data ->
@@ -42,9 +38,23 @@ class MainActivity : AppCompatActivity() {
                 .load(data.image)
                 .into(songView_image)
 
+            playViewModel.setLyricsData(data.lyrics)
+
             exoPlayer!!.addMediaItem(MediaItem.fromUri(data.file))
 
             exoPlayer!!.prepare()
+        })
+
+        playViewModel.currentLyricIndex.observe(this@MainActivity, Observer { index ->
+            songView_lyrics_current.setText(playViewModel.getLyrics(index))
+            songView_lyrics_next.setText(playViewModel.getLyrics(index+1))
+
+            if(index != -1){
+                songView_lyrics_current.setTypeface(Typeface.DEFAULT_BOLD)
+            }else{
+                songView_lyrics_current.setTypeface(Typeface.DEFAULT)
+            }
+
         })
 
         playViewModel.getSongData()
