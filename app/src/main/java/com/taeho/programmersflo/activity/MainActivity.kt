@@ -42,8 +42,4 @@ class MainActivity : FragmentActivity() {
 
     }
 
-    fun initPlayer(songURI: String){
-
-
-    }
 }

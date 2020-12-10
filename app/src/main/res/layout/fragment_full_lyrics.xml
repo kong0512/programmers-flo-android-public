@@ -16,16 +16,11 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/lyrics_scroll"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical" />
         </ScrollView>
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/exo_controls_fullscreen_enter" />
     </LinearLayout>
 </FrameLayout>

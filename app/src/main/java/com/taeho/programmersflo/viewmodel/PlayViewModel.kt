@@ -80,4 +80,12 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
             return lyricsData[index].lyric
         }
     }
+
+    fun getLyricsList(): List<Lyrics> {
+        return lyricsData
+    }
+
+    fun setSongPosition(position: Long) {
+        exoPlayer.value!!.seekTo(position)
+    }
 }
