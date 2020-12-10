@@ -3,4 +3,6 @@
       <color name="colorPrimary">#000000</color>
       <color name="colorPrimaryDark">#000000</color>
       <color name="colorAccent">#03DAC5</color>
+      <color name="currentLyrics">#FFFFFFFF</color>
+      <color name="unfocusedLyrics">#FF444444</color>
   </resources>

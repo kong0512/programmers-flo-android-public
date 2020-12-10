@@ -13,9 +13,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="vertical"
 
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -27,7 +27,7 @@
                 android:layout_marginBottom="4dp"
 
                 android:gravity="center"
-                android:text="TextView"
+
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:gravity="center"
-                android:text="TextView"
+
 
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="TextView"
+
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <ImageView
@@ -62,15 +62,17 @@
                 android:id="@+id/songView_lyrics_current"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="TextView" />
+                android:textSize = "20sp"
+                android:textColor = "@color/unfocusedLyrics"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/songView_lyrics_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="TextView" />
+                android:textSize = "20sp"
+                android:textColor = "@color/unfocusedLyrics"
+                android:gravity="center" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

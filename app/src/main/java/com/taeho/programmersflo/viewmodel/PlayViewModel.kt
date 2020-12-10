@@ -1,25 +1,27 @@
 package com.taeho.programmersflo.viewmodel
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.taeho.programmersflo.R
 import com.taeho.programmersflo.model.Lyrics
 import com.taeho.programmersflo.model.SongData
 import com.taeho.programmersflo.repository.SongService
 import com.taeho.programmersflo.util.LyricsUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PlayViewModel: ViewModel() {
+class PlayViewModel(application: Application): AndroidViewModel(application) {
     val songLiveData = MutableLiveData<SongData>()
+    val exoPlayer = MutableLiveData<SimpleExoPlayer>()
     private val lyricsData = mutableListOf<Lyrics>()
     val currentLyricIndex = MutableLiveData<Int>()
     val songService: SongService
+    private val mContext = getApplication<Application>().applicationContext
 
     init {
         val retrofit = Retrofit.Builder()
@@ -32,10 +34,28 @@ class PlayViewModel: ViewModel() {
 
     }
 
+    fun createExoplayer() {
+        exoPlayer.postValue(SimpleExoPlayer.Builder(mContext).build())
+
+    }
+
+    fun setFileExoplayer() {
+        exoPlayer.value!!.addMediaItem(MediaItem.fromUri(songLiveData.value!!.file))
+        exoPlayer.value!!.prepare()
+    }
+
+    fun releaseExoplayer() {
+
+    }
+
     fun getSongData(){
         viewModelScope.launch(Dispatchers.IO) {
             songLiveData.postValue(songService.fetchSongData("song.json"))
         }
+
+
+
+
     }
 
     fun setLyricsData(rawLyrics: String) {

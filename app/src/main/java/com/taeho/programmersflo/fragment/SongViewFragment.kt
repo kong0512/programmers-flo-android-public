@@ -1,60 +1,65 @@
 package com.taeho.programmersflo.fragment
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.MediaItem
 import com.taeho.programmersflo.R
+import com.taeho.programmersflo.viewmodel.PlayViewModel
+import kotlinx.android.synthetic.main.fragment_song_view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SongViewFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SongViewFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val playViewModel: PlayViewModel by activityViewModels()
+    private lateinit var mContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_song_view, container, false)
+        val view = inflater.inflate(R.layout.fragment_song_view, container, false)
+
+        playViewModel.songLiveData.observe(this@SongViewFragment, Observer { data ->
+            songView_title.setText(data.title)
+            songView_singer.setText(data.singer)
+            songView_album.setText(data.album)
+
+            Glide.with(this)
+                .load(data.image)
+                .into(songView_image)
+
+            playViewModel.setLyricsData(data.lyrics)
+        })
+
+        playViewModel.currentLyricIndex.observe(this@SongViewFragment, Observer { index ->
+            songView_lyrics_current.setText(playViewModel.getLyrics(index))
+            songView_lyrics_next.setText(playViewModel.getLyrics(index+1))
+
+            if(index != -1){
+                songView_lyrics_current.setTextColor(ContextCompat.getColor(mContext, R.color.currentLyrics))
+            }else{
+                songView_lyrics_current.setTextColor(ContextCompat.getColor(mContext, R.color.unfocusedLyrics))
+            }
+
+
+        })
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SongViewFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SongViewFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        mContext = context
     }
 }

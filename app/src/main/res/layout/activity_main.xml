@@ -6,71 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="64dp"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/songView_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/songView_title"
+        <fragment
+            android:id="@+id/fragment"
+            android:name="com.taeho.programmersflo.fragment.SongViewFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-
-            android:gravity="center"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-        <TextView
-            android:id="@+id/songView_singer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:gravity="center"
-            android:text="TextView"
-
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <TextView
-            android:id="@+id/songView_album"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <ImageView
-            android:id="@+id/songView_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="16dp"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/songView_lyrics_current"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/songView_lyrics_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TextView" />
-
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <com.google.android.exoplayer2.ui.PlayerControlView
         android:id="@+id/songView_player"
