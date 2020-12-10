@@ -1,5 +1,6 @@
 package com.taeho.programmersflo.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -15,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.taeho.programmersflo.R
+import com.taeho.programmersflo.activity.MainActivity
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.android.synthetic.main.fragment_song_view.*
 
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_song_view.*
 class SongViewFragment : Fragment() {
     private val playViewModel: PlayViewModel by activityViewModels()
     private lateinit var mContext: Context
+    private lateinit var mActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +58,13 @@ class SongViewFragment : Fragment() {
             }
 
 
+            songView_lyrics_layout.setOnClickListener {
+                mActivity.moveToFullLyricsFragment()
+            }
         })
+
+
+
 
         return view
     }
@@ -64,5 +73,8 @@ class SongViewFragment : Fragment() {
         super.onAttach(context)
 
         mContext = context
+        mActivity = requireActivity() as MainActivity
+
     }
+
 }

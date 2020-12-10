@@ -31,7 +31,6 @@ class FullLyricsFragment : Fragment() {
 
         playViewModel.songLiveData.observe(this@FullLyricsFragment, Observer { data ->
             lyrics_scroll.removeAllViews()
-            playViewModel.setLyricsData(data.lyrics)
         })
 
         playViewModel.currentLyricIndex.observe(this@FullLyricsFragment, Observer { index ->

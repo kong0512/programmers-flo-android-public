@@ -5,18 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.taeho.programmersflo.R
+import com.taeho.programmersflo.fragment.FullLyricsFragment
 import com.taeho.programmersflo.util.LyricsUtil
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : FragmentActivity() {
     private val playViewModel: PlayViewModel by viewModels()
-
+    private lateinit var fragmentManager: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +40,16 @@ class MainActivity : FragmentActivity() {
             playViewModel.setFileExoplayer()
         })
 
+        fragmentManager = supportFragmentManager
+
+
         playViewModel.getSongData()
 
+    }
+
+
+    fun moveToFullLyricsFragment() {
+        fragmentManager.beginTransaction().replace(R.id.fragment, FullLyricsFragment()).addToBackStack(null).commit()
     }
 
 }
