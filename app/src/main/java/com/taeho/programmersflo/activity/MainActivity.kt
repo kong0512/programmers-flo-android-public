@@ -56,7 +56,7 @@ class MainActivity : FragmentActivity() {
 
         if(fragmentManager.fragments.isEmpty()){
             Log.d("Fragment", "SongViewFragment Added")
-            fragmentManager.beginTransaction().replace(R.id.main_fragment, SongViewFragment(), "SONGVIEW_FRAGMENT").disallowAddToBackStack().commit()
+            fragmentManager.beginTransaction().add(R.id.main_fragment, SongViewFragment(), "SONGVIEW_FRAGMENT").addToBackStack(null).commit()
         }
 
 
@@ -67,11 +67,16 @@ class MainActivity : FragmentActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Log.d("FragmentTest", fragmentManager.findFragmentById(R.id.main_fragment).toString())
+        if(fragmentManager.findFragmentById(R.id.main_fragment) == null){
+            playViewModel.releaseExoplayer()
+            finish()
+            System.exit(1)
+        }
     }
 
 
     fun moveToFullLyricsFragment() {
+
 
         fragmentManager.beginTransaction().replace(R.id.main_fragment, FullLyricsFragment(), "FULLLYRICS_FRAGMENT").addToBackStack(null).commit()
 
