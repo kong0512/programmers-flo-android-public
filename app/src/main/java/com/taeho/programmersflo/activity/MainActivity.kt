@@ -19,6 +19,16 @@ import com.taeho.programmersflo.util.LyricsUtil
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
+/*
+Programmers 과제테스트용 Android Application
+Flo-like Music Player
+
+사용 라이브러리:
+JetPack: Android Architecture Component(ViewModel, LiveData)용
+Retrofit(https://square.github.io/retrofit/): HTTP 통신
+Glide(https://github.com/bumptech/glide): 이미지 로딩
+ExoPlayer(https://github.com/google/ExoPlayer): 음악 파일 재생용
+ */
 class MainActivity : FragmentActivity() {
     private val playViewModel: PlayViewModel by viewModels()
     private lateinit var fragmentManager: FragmentManager
