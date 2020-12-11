@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.taeho.programmersflo.R
+import com.taeho.programmersflo.fragment.FullLyricsFragment
 import com.taeho.programmersflo.model.Lyrics
 import com.taeho.programmersflo.model.SongData
 import com.taeho.programmersflo.repository.SongService
@@ -20,7 +21,10 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     val exoPlayer = MutableLiveData<SimpleExoPlayer>()
     private val lyricsData = mutableListOf<Lyrics>()
     val currentLyricIndex = MutableLiveData<Int>()
+    var movePositionToggled = MutableLiveData<Boolean>()
     val songService: SongService
+
+
     private val mContext = getApplication<Application>().applicationContext
 
     init {
@@ -31,6 +35,18 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
 
         songService = retrofit.create(SongService::class.java)
 
+        movePositionToggled.value = false
+
+        createExoplayer()
+
+    }
+
+    fun isMovePositionToggled(): Boolean {
+        return movePositionToggled.value!!
+    }
+
+    fun setToggle() {
+        movePositionToggled.postValue(!(movePositionToggled.value!!))
 
     }
 
@@ -45,7 +61,7 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun releaseExoplayer() {
-
+        exoPlayer.value!!.release()
     }
 
     fun getSongData(){

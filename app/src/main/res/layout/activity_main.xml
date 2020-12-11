@@ -16,11 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <fragment
-            android:id="@+id/fragment"
-            android:name="com.taeho.programmersflo.fragment.SongViewFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
+
     </FrameLayout>
 
     <com.google.android.exoplayer2.ui.PlayerControlView
