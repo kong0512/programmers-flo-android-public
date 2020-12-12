@@ -28,6 +28,7 @@ JetPack: Android Architecture Component(ViewModel, LiveData)용
 Retrofit(https://square.github.io/retrofit/): HTTP 통신
 Glide(https://github.com/bumptech/glide): 이미지 로딩
 ExoPlayer(https://github.com/google/ExoPlayer): 음악 파일 재생용
+Koin(https://github.com/InsertKoinIO/koin): 의존성 주입
  */
 class MainActivity : FragmentActivity() {
     private val playViewModel: PlayViewModel by viewModels()
@@ -69,6 +70,7 @@ class MainActivity : FragmentActivity() {
         super.onBackPressed()
         if(fragmentManager.findFragmentById(R.id.main_fragment) == null){
             playViewModel.releaseExoplayer()
+
             finish()
             System.exit(1)
         }

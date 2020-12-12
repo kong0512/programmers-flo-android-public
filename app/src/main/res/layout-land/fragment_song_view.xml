@@ -13,69 +13,72 @@
 
         <TextView
             android:id="@+id/songView_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="64dp"
-
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:textColor="#FFFFFF"
-
-
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/songView_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
 
         <TextView
             android:id="@+id/songView_singer"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:gravity="center"
 
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/songView_image"
             app:layout_constraintTop_toBottomOf="@+id/songView_title" />
 
         <TextView
             android:id="@+id/songView_album"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/songView_image"
             app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/songView_image"
             app:layout_constraintTop_toBottomOf="@+id/songView_singer" />
 
         <ImageView
             android:id="@+id/songView_image"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="64dp"
+            android:layout_marginStart="32dp"
+
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/songView_lyrics_layout"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/songView_album"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <LinearLayout
             android:id="@+id/songView_lyrics_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="128dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/songView_image">
+            app:layout_constraintStart_toEndOf="@+id/songView_image"
+            app:layout_constraintTop_toBottomOf="@+id/songView_album">
 
             <TextView
                 android:id="@+id/songView_lyrics_current"
