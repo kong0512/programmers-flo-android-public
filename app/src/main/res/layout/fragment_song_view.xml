@@ -27,8 +27,8 @@
                 android:layout_marginBottom="4dp"
 
                 android:gravity="center"
-
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/songView_singer"
@@ -37,16 +37,14 @@
                 android:layout_marginBottom="2dp"
                 android:gravity="center"
 
-
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/songView_album"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/songView_image"
@@ -68,20 +66,19 @@
                     android:id="@+id/songView_lyrics_current"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize = "20sp"
-                    android:textColor = "@color/unfocusedLyrics"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:textColor="@color/unfocusedLyrics"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/songView_lyrics_next"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize = "20sp"
-                    android:textColor = "@color/unfocusedLyrics"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:textColor="@color/unfocusedLyrics"
+                    android:textSize="20sp" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>

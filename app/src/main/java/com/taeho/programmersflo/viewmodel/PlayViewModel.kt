@@ -13,6 +13,7 @@ import com.taeho.programmersflo.model.SongData
 import com.taeho.programmersflo.repository.SongService
 import com.taeho.programmersflo.util.LyricsUtil
 import kotlinx.coroutines.*
+import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,18 +23,12 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     private val lyricsData = mutableListOf<Lyrics>()
     val currentLyricIndex = MutableLiveData<Int>()
     var movePositionToggled = MutableLiveData<Boolean>()
-    val songService: SongService
-
+    private val songService: SongService by inject(SongService::class.java)
 
     private val mContext = getApplication<Application>().applicationContext
 
     init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://grepp-programmers-challenges.s3.ap-northeast-2.amazonaws.com/2020-flo/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        songService = retrofit.create(SongService::class.java)
 
         movePositionToggled.value = false
 

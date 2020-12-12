@@ -25,6 +25,10 @@ android {
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -48,5 +52,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'org.koin:koin-core:2.2.1'
+    implementation "org.koin:koin-androidx-scope:2.2.1"
+    implementation "org.koin:koin-androidx-viewmodel:2.2.1"
 
 }
