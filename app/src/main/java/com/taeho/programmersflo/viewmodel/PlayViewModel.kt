@@ -31,10 +31,8 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     private val mContext = getApplication<Application>().applicationContext
 
     init {
-
-
         movePositionToggled.value = false
-        lyricsData.postValue(mutableListOf())
+        lyricsData.value = mutableListOf()
         createExoplayer()
 
     }
@@ -72,7 +70,7 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
                 override fun onResponse(call: Call<SongData>, response: Response<SongData>) {
                     if(response.body() != null) {
                         songLiveData.value = response.body()
-                        setLyricsData(songLiveData.value!!.lyrics)
+                        setLyricsData()
                         setFileExoplayer()
                     }
                     else{
@@ -83,13 +81,13 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
             })
     }
 
-    fun setLyricsData(rawLyrics: String) {
-        lyricsData.postValue(LyricsUtil.ParseLyrics(rawLyrics))
+    fun setLyricsData() {
+        lyricsData.value = LyricsUtil.ParseLyrics(songLiveData.value!!.lyrics)
         currentLyricIndex.postValue(-1)
     }
 
     fun setStatusForLyrics(currentTime:Long) {
-        currentLyricIndex.postValue(LyricsUtil.checkCurrentViewableLyrics(lyricsData.value!!, currentTime))
+        currentLyricIndex.value = LyricsUtil.checkCurrentViewableLyrics(lyricsData.value!!, currentTime)
     }
 
     fun getLyrics(index: Int): String{
