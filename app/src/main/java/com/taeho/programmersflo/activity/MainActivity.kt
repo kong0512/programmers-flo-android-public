@@ -56,10 +56,6 @@ class MainActivity : FragmentActivity() {
             playViewModel.setStatusForLyrics(position)
         }
 
-        playViewModel.songLiveData.observe(this@MainActivity, Observer { data ->
-            playViewModel.setFileExoplayer()
-//            playViewModel.setLyricsData(data.lyrics)
-        })
 
         fragmentManager = supportFragmentManager
 
@@ -67,9 +63,6 @@ class MainActivity : FragmentActivity() {
             fragmentManager.beginTransaction().add(R.id.main_fragment, SongViewFragment()).disallowAddToBackStack().commit()
 
         }
-
-
-
 
         playViewModel.getSongData()
 

@@ -8,5 +8,5 @@ import retrofit2.http.Path
 
 interface SongService {
     @GET("{jsonName}")
-    suspend fun fetchSongData(@Path("jsonName") jsonName: String): SongData
+    fun fetchSongData(@Path("jsonName") jsonName: String): Call<SongData>
 }

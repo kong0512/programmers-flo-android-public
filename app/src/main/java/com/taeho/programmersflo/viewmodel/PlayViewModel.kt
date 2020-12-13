@@ -14,6 +14,9 @@ import com.taeho.programmersflo.repository.SongService
 import com.taeho.programmersflo.util.LyricsUtil
 import kotlinx.coroutines.*
 import org.koin.java.KoinJavaComponent.inject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -60,20 +63,24 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     }
 
    fun getSongData(){
-        viewModelScope.launch(Dispatchers.IO) {
-            var songData = songService.fetchSongData("song.json")
+            songService.fetchSongData("song.json").enqueue(object:
+                Callback<SongData> {
+                override fun onFailure(call: Call<SongData>, t: Throwable) {
+                    Log.e("HTTP Error", t.toString())
+                }
 
-            try{
-                songLiveData.postValue(songData)
-                setLyricsData(songData.lyrics)
-            }catch(t: Throwable) {
-                Log.e("Error", t.toString())
-            }
-        }
+                override fun onResponse(call: Call<SongData>, response: Response<SongData>) {
+                    if(response.body() != null) {
+                        songLiveData.value = response.body()
+                        setLyricsData(songLiveData.value!!.lyrics)
+                        setFileExoplayer()
+                    }
+                    else{
+                        Log.e("HTTP Error", "response data is null")
+                    }
+                }
 
-
-
-
+            })
     }
 
     fun setLyricsData(rawLyrics: String) {
@@ -86,7 +93,7 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun getLyrics(index: Int): String{
-        if(lyricsData == null || lyricsData.value!!.isEmpty() || index>=lyricsData.value!!.size){
+        if(lyricsData.value == null || lyricsData.value!!.isEmpty() || index>=lyricsData.value!!.size){
             return ""
         }
 
