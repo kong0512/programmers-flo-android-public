@@ -33,7 +33,7 @@ class SongViewFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_song_view, container, false)
 
-        playViewModel.songLiveData.observe(this@SongViewFragment, Observer { data ->
+        playViewModel.songLiveData.observe(viewLifecycleOwner, Observer { data ->
             songView_title.setText(data.title)
             songView_singer.setText(data.singer)
             songView_album.setText(data.album)
@@ -42,10 +42,11 @@ class SongViewFragment : Fragment() {
                 .load(data.image)
                 .into(songView_image)
 
-            playViewModel.setLyricsData(data.lyrics)
         })
 
-        playViewModel.currentLyricIndex.observe(this@SongViewFragment, Observer { index ->
+        playViewModel.currentLyricIndex.observe(viewLifecycleOwner, Observer { index ->
+
+
             songView_lyrics_current.setText(playViewModel.getLyrics(index))
             songView_lyrics_next.setText(playViewModel.getLyrics(index+1))
 

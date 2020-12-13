@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class PlayViewModel(application: Application): AndroidViewModel(application) {
     val songLiveData = MutableLiveData<SongData>()
     val exoPlayer = MutableLiveData<SimpleExoPlayer>()
-    private val lyricsData = mutableListOf<Lyrics>()
+    val lyricsData = MutableLiveData<MutableList<Lyrics>>()
     val currentLyricIndex = MutableLiveData<Int>()
     var movePositionToggled = MutableLiveData<Boolean>()
     private val songService: SongService by inject(SongService::class.java)
@@ -31,7 +31,7 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
 
 
         movePositionToggled.value = false
-
+        lyricsData.postValue(mutableListOf())
         createExoplayer()
 
     }
@@ -59,9 +59,16 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
         exoPlayer.value!!.release()
     }
 
-    fun getSongData(){
+   fun getSongData(){
         viewModelScope.launch(Dispatchers.IO) {
-            songLiveData.postValue(songService.fetchSongData("song.json"))
+            var songData = songService.fetchSongData("song.json")
+
+            try{
+                songLiveData.postValue(songData)
+                setLyricsData(songData.lyrics)
+            }catch(t: Throwable) {
+                Log.e("Error", t.toString())
+            }
         }
 
 
@@ -70,30 +77,29 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun setLyricsData(rawLyrics: String) {
-        lyricsData.clear()
-        lyricsData.addAll(LyricsUtil.ParseLyrics(rawLyrics))
+        lyricsData.postValue(LyricsUtil.ParseLyrics(rawLyrics))
         currentLyricIndex.postValue(-1)
     }
 
     fun setStatusForLyrics(currentTime:Long) {
-        currentLyricIndex.postValue(LyricsUtil.checkCurrentViewableLyrics(lyricsData, currentTime))
+        currentLyricIndex.postValue(LyricsUtil.checkCurrentViewableLyrics(lyricsData.value!!, currentTime))
     }
 
     fun getLyrics(index: Int): String{
-        if(lyricsData.isEmpty() || index>=lyricsData.size){
+        if(lyricsData == null || lyricsData.value!!.isEmpty() || index>=lyricsData.value!!.size){
             return ""
         }
 
         if(index == -1){
-            return lyricsData[0].lyric
+            return lyricsData.value!![0].lyric
         }
         else{
-            return lyricsData[index].lyric
+            return lyricsData.value!![index].lyric
         }
     }
 
     fun getLyricsList(): List<Lyrics> {
-        return lyricsData
+        return lyricsData.value!!
     }
 
     fun setSongPosition(position: Long) {

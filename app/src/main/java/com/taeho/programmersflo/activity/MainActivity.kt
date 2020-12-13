@@ -1,9 +1,11 @@
 package com.taeho.programmersflo.activity
 
+import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -18,6 +20,10 @@ import com.taeho.programmersflo.fragment.SongViewFragment
 import com.taeho.programmersflo.util.LyricsUtil
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /*
 Programmers 과제테스트용 Android Application
@@ -33,6 +39,7 @@ Koin(https://github.com/InsertKoinIO/koin): 의존성 주입
 class MainActivity : FragmentActivity() {
     private val playViewModel: PlayViewModel by viewModels()
     private lateinit var fragmentManager: FragmentManager
+    private var backButtonPressed: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +58,16 @@ class MainActivity : FragmentActivity() {
 
         playViewModel.songLiveData.observe(this@MainActivity, Observer { data ->
             playViewModel.setFileExoplayer()
+//            playViewModel.setLyricsData(data.lyrics)
         })
 
         fragmentManager = supportFragmentManager
 
         if(fragmentManager.fragments.isEmpty()){
-            Log.d("Fragment", "SongViewFragment Added")
-            fragmentManager.beginTransaction().add(R.id.main_fragment, SongViewFragment(), "SONGVIEW_FRAGMENT").addToBackStack(null).commit()
+            fragmentManager.beginTransaction().add(R.id.main_fragment, SongViewFragment()).disallowAddToBackStack().commit()
+
         }
+
 
 
 
@@ -67,20 +76,28 @@ class MainActivity : FragmentActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        if(fragmentManager.findFragmentById(R.id.main_fragment) == null){
-            playViewModel.releaseExoplayer()
+        if(fragmentManager.backStackEntryCount == 0){
+            if(backButtonPressed){
+                super.onBackPressed()
+                playViewModel.releaseExoplayer()
+                finish()
+                System.exit(1)
+            }
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            backButtonPressed = true
 
-            finish()
-            System.exit(1)
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2000L)
+                backButtonPressed = false
+            }
+        }else{
+            super.onBackPressed()
         }
     }
 
 
     fun moveToFullLyricsFragment() {
-
-
-        fragmentManager.beginTransaction().replace(R.id.main_fragment, FullLyricsFragment(), "FULLLYRICS_FRAGMENT").addToBackStack(null).commit()
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top, R.anim.slide_in_top, R.anim.slide_out_bottom).replace(R.id.main_fragment, FullLyricsFragment()).addToBackStack(null).commit()
 
     }
 

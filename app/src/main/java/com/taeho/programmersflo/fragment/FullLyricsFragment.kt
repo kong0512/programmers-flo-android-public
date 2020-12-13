@@ -20,6 +20,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.core.view.marginTop
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -28,6 +29,7 @@ import com.taeho.programmersflo.activity.MainActivity
 import com.taeho.programmersflo.model.Lyrics
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.android.synthetic.main.fragment_full_lyrics.*
+import org.w3c.dom.Text
 
 
 class FullLyricsFragment : Fragment() {
@@ -50,35 +52,19 @@ class FullLyricsFragment : Fragment() {
         closeButton = view.findViewById(R.id.fulllyrics_close) as ImageButton
         toggleButton = view.findViewById(R.id.fulllyrics_toggle) as ImageButton
 
-        playViewModel.songLiveData.observe(this@FullLyricsFragment, Observer { data ->
+        playViewModel.songLiveData.observe(viewLifecycleOwner, Observer { data ->
             lyrics_scroll.removeAllViews()
 
             fulllyrics_title.text = data.title
             fulllyrics_singer.text = data.singer
         })
 
-        playViewModel.currentLyricIndex.observe(this@FullLyricsFragment, Observer { index ->
-//            playViewModel.setToggle()
-
-
-            val lyricsList = playViewModel.getLyricsList()
-
-
+        playViewModel.lyricsData.observe(viewLifecycleOwner, Observer { lyricsList ->
             lyrics_scroll.removeAllViews()
 
             for(i in lyricsList.indices) {
-                val currentView = TextView(mContext)
+                val currentView = View.inflate(mActivity, R.layout.lyrics_elements, null) as TextView
                 currentView.text = lyricsList[i].lyric
-                currentView.textSize = resources.getDimension(R.dimen.fullLyrics_size)
-                val param = ViewGroup.MarginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
-                currentView.layoutParams = param
-
-                if(index == i){
-                    currentView.setTextColor(ContextCompat.getColor(mContext, R.color.currentLyrics))
-                }
-                else{
-                    currentView.setTextColor(ContextCompat.getColor(mContext, R.color.unfocusedLyrics))
-                }
 
                 currentView.setOnClickListener {
                     if(playViewModel.isMovePositionToggled()){
@@ -92,12 +78,27 @@ class FullLyricsFragment : Fragment() {
 
                 lyrics_scroll.addView(currentView)
             }
+        })
 
+        playViewModel.currentLyricIndex.observe(viewLifecycleOwner, Observer { index ->
+
+            for(i in 0 until lyrics_scroll.childCount){
+                val tempText = lyrics_scroll[i] as TextView
+                if(i == index){
+                    tempText.setTextColor(ContextCompat.getColor(mContext, R.color.currentLyrics))
+                }
+                else {
+                    if(tempText.currentTextColor == ContextCompat.getColor(mContext, R.color.currentLyrics)) {
+                        tempText.setTextColor(ContextCompat.getColor(mContext, R.color.unfocusedLyrics))
+                    }
+                }
+
+            }
 
 
         })
 
-        playViewModel.movePositionToggled.observe(this@FullLyricsFragment, Observer {
+        playViewModel.movePositionToggled.observe(viewLifecycleOwner, Observer {
             if(it){
                 toggleButton.setColorFilter(Color.parseColor("#0000FF"), PorterDuff.Mode.SRC_IN)
             }else{
@@ -107,7 +108,6 @@ class FullLyricsFragment : Fragment() {
 
         closeButton.setOnClickListener {
             mActivity.supportFragmentManager.popBackStack()
-            Log.d("test", "Test")
         }
 
         toggleButton.setOnClickListener {
