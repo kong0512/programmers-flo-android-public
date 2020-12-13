@@ -52,7 +52,7 @@ class MainActivity : FragmentActivity() {
         })
 
 
-        songView_player.setProgressUpdateListener { position, bufferedPosition ->
+        songView_player.setProgressUpdateListener { position, _ ->
             playViewModel.setStatusForLyrics(position)
         }
 
