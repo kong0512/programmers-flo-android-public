@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 /*
 Programmers 과제테스트용 Android Application
@@ -74,7 +75,7 @@ class MainActivity : FragmentActivity() {
                 super.onBackPressed()
                 playViewModel.releaseExoplayer()
                 finish()
-                System.exit(1)
+                exitProcess(1)
             }
             Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
             backButtonPressed = true
