@@ -1,3 +1,5 @@
+![issue badge](https://img.shields.io/github/license/kong0512/programmers-flo-android-public)
+
 # programmers-flo-android-public
 Programmers 과제관 중 안드로이드 앱(FLO 뮤직 플레이어) 구현 (공개판)
 
