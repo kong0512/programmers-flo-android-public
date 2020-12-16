@@ -1,7 +1,7 @@
 ![issue badge](https://img.shields.io/github/license/kong0512/programmers-flo-android-public)
 
 # programmers-flo-android-public
-Programmers 과제관 중 안드로이드 앱(FLO 뮤직 플레이어) 구현 (공개판)
+Programmers 과제관 중 안드로이드 앱(뮤직 플레이어) 구현(https://programmers.co.kr/skill_check_assignments/3)
 
 ## 구현한 기능
  - 2초간 스플래시 이미지 표현 후 메인 화면으로 이동
