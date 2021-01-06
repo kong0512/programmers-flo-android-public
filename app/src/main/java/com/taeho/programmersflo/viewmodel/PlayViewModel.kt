@@ -46,7 +46,7 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
 
     }
 
-    fun createExoplayer() {
+    private fun createExoplayer() {
         exoPlayer.postValue(SimpleExoPlayer.Builder(mContext).build())
 
     }
@@ -95,11 +95,10 @@ class PlayViewModel(application: Application): AndroidViewModel(application) {
             return ""
         }
 
-        if(index == -1){
-            return lyricsData.value!![0].lyric
-        }
-        else{
-            return lyricsData.value!![index].lyric
+        return if(index == -1){
+            lyricsData.value!![0].lyric
+        } else{
+            lyricsData.value!![index].lyric
         }
     }
 
