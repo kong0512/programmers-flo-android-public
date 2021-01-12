@@ -26,9 +26,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.taeho.programmersflo.R
 import com.taeho.programmersflo.activity.MainActivity
+import com.taeho.programmersflo.databinding.FragmentFullLyricsBinding
 import com.taeho.programmersflo.model.Lyrics
 import com.taeho.programmersflo.viewmodel.PlayViewModel
-import kotlinx.android.synthetic.main.fragment_full_lyrics.*
 import org.w3c.dom.Text
 
 
@@ -39,28 +39,38 @@ class FullLyricsFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var mActivity: MainActivity
 
+    private var fullLyricsBinding: FragmentFullLyricsBinding? = null
+
     private lateinit var closeButton: ImageButton
     private lateinit var toggleButton: ImageButton
 
+    private val binding get() = fullLyricsBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_full_lyrics, container, false)
+        fullLyricsBinding  = FragmentFullLyricsBinding.inflate(inflater, container, false)
+
+        return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         closeButton = view.findViewById(R.id.fulllyrics_close) as ImageButton
         toggleButton = view.findViewById(R.id.fulllyrics_toggle) as ImageButton
 
         playViewModel.songLiveData.observe(viewLifecycleOwner, Observer { data ->
-            lyrics_scroll.removeAllViews()
+            binding.lyricsScroll.removeAllViews()
 
-            fulllyrics_title.text = data.title
-            fulllyrics_singer.text = data.singer
+            binding.fulllyricsTitle.text = data.title
+            binding.fulllyricsSinger.text = data.singer
         })
 
         playViewModel.lyricsData.observe(viewLifecycleOwner, Observer { lyricsList ->
-            lyrics_scroll.removeAllViews()
+            binding.lyricsScroll.removeAllViews()
 
             for(i in lyricsList.indices) {
                 val currentView = View.inflate(mActivity, R.layout.lyrics_elements, null) as TextView
@@ -76,14 +86,14 @@ class FullLyricsFragment : Fragment() {
 
                 }
 
-                lyrics_scroll.addView(currentView)
+                binding.lyricsScroll.addView(currentView)
             }
         })
 
         playViewModel.currentLyricIndex.observe(viewLifecycleOwner, Observer { index ->
 
-            for(i in 0 until lyrics_scroll.childCount){
-                val tempText = lyrics_scroll[i] as TextView
+            for(i in 0 until  binding.lyricsScroll.childCount){
+                val tempText =  binding.lyricsScroll[i] as TextView
                 if(i == index){
                     tempText.setTextColor(ContextCompat.getColor(mContext, R.color.currentLyrics))
                 }
@@ -113,9 +123,6 @@ class FullLyricsFragment : Fragment() {
         toggleButton.setOnClickListener {
             playViewModel.setToggle()
         }
-
-
-        return view
     }
 
     override fun onAttach(context: Context) {

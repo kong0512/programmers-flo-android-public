@@ -17,8 +17,10 @@ import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.taeho.programmersflo.R
 import com.taeho.programmersflo.activity.MainActivity
+import com.taeho.programmersflo.databinding.FragmentFullLyricsBinding
+import com.taeho.programmersflo.databinding.FragmentSongViewBinding
 import com.taeho.programmersflo.viewmodel.PlayViewModel
-import kotlinx.android.synthetic.main.fragment_song_view.*
+import org.koin.android.ext.android.bind
 
 
 class SongViewFragment : Fragment() {
@@ -26,48 +28,56 @@ class SongViewFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var mActivity: MainActivity
 
+    private var songViewBinding: FragmentSongViewBinding? = null
+
+    private val binding get() = songViewBinding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_song_view, container, false)
+
+        songViewBinding  = FragmentSongViewBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         playViewModel.songLiveData.observe(viewLifecycleOwner, Observer { data ->
-            songView_title.text = data.title
-            songView_singer.text = data.singer
-            songView_album.text= data.album
+            binding.songViewTitle.text = data.title
+            binding.songViewSinger.text = data.singer
+            binding.songViewAlbum.text= data.album
 
             Glide.with(this)
                 .load(data.image)
-                .into(songView_image)
+                .into(binding.songViewImage)
 
         })
 
         playViewModel.currentLyricIndex.observe(viewLifecycleOwner, Observer { index ->
 
 
-            songView_lyrics_current.text = playViewModel.getLyrics(index)
-            songView_lyrics_next.text =  playViewModel.getLyrics(index+1)
+            binding.songViewLyricsCurrent.text = playViewModel.getLyrics(index)
+            binding.songViewLyricsNext.text =  playViewModel.getLyrics(index+1)
 
 
 
             if(index != -1){
-                songView_lyrics_current.setTextColor(ContextCompat.getColor(mContext, R.color.currentLyrics))
+                binding.songViewLyricsCurrent.setTextColor(ContextCompat.getColor(mContext, R.color.currentLyrics))
             }else{
-                songView_lyrics_current.setTextColor(ContextCompat.getColor(mContext, R.color.unfocusedLyrics))
+                binding.songViewLyricsCurrent.setTextColor(ContextCompat.getColor(mContext, R.color.unfocusedLyrics))
             }
 
 
-            songView_lyrics_layout.setOnClickListener {
+            binding.songViewLyricsLayout.setOnClickListener {
                 mActivity.moveToFullLyricsFragment()
             }
         })
 
 
-
-
-        return view
     }
 
     override fun onAttach(context: Context) {

@@ -15,11 +15,11 @@ import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.taeho.programmersflo.R
+import com.taeho.programmersflo.databinding.ActivityMainBinding
 import com.taeho.programmersflo.fragment.FullLyricsFragment
 import com.taeho.programmersflo.fragment.SongViewFragment
 import com.taeho.programmersflo.util.LyricsUtil
 import com.taeho.programmersflo.viewmodel.PlayViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -42,18 +42,23 @@ class MainActivity : FragmentActivity() {
     private lateinit var fragmentManager: FragmentManager
     private var backButtonPressed: Boolean = false
 
+    private lateinit var mainBinding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(mainBinding.root)
 
 
         playViewModel.exoPlayer.observe(this@MainActivity, Observer { player ->
-            songView_player.player = player
-            songView_player.showTimeoutMs = 0
+            mainBinding.songViewPlayer.player = player
+            mainBinding.songViewPlayer.showTimeoutMs = 0
         })
 
 
-        songView_player.setProgressUpdateListener { position, _ ->
+        mainBinding.songViewPlayer.setProgressUpdateListener { position, _ ->
             playViewModel.setStatusForLyrics(position)
         }
 
