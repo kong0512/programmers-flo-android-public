@@ -1,11 +1,8 @@
 package com.taeho.programmersflo.fragment
 
-import android.app.Activity
+
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.android.exoplayer2.MediaItem
 import com.taeho.programmersflo.R
 import com.taeho.programmersflo.activity.MainActivity
-import com.taeho.programmersflo.databinding.FragmentFullLyricsBinding
 import com.taeho.programmersflo.databinding.FragmentSongViewBinding
 import com.taeho.programmersflo.viewmodel.PlayViewModel
-import org.koin.android.ext.android.bind
+
 
 
 class SongViewFragment : Fragment() {

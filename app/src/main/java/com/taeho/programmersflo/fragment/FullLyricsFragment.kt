@@ -1,35 +1,24 @@
 package com.taeho.programmersflo.fragment
 
-import android.app.ActionBar
 import android.content.Context
-import android.graphics.BlendModeColorFilter
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
-import androidx.core.view.marginTop
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.taeho.programmersflo.R
 import com.taeho.programmersflo.activity.MainActivity
 import com.taeho.programmersflo.databinding.FragmentFullLyricsBinding
-import com.taeho.programmersflo.model.Lyrics
 import com.taeho.programmersflo.viewmodel.PlayViewModel
-import org.w3c.dom.Text
+
 
 
 class FullLyricsFragment : Fragment() {

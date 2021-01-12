@@ -1,24 +1,15 @@
 package com.taeho.programmersflo.activity
 
-import android.content.Intent
-import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.taeho.programmersflo.R
 import com.taeho.programmersflo.databinding.ActivityMainBinding
 import com.taeho.programmersflo.fragment.FullLyricsFragment
 import com.taeho.programmersflo.fragment.SongViewFragment
-import com.taeho.programmersflo.util.LyricsUtil
 import com.taeho.programmersflo.viewmodel.PlayViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
